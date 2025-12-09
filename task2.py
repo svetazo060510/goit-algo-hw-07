@@ -1,7 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
-
 class Node:
     """Вузол для Двійкового Дерева Пошуку (BST) або AVL-дерева."""
     def __init__(self, key):
@@ -30,20 +29,20 @@ class BST:
         
         return node
 
-def find_max_value(root_node: Node) -> int:
+def find_min_value(root_node: Node):
     """
-    Знаходить найбільше значення у Двійковому Дереві Пошуку (BST).
+    Знаходить найменше значення у Двійковому Дереві Пошуку (BST / AVL).
     
-    У BST найбільше значення завжди знаходиться у найправішому вузлі.
+    У BST найменше значення завжди знаходиться у найлівішому вузлі.
     Часова складність: O(h), де h — висота дерева.
     """
     if root_node is None:
-        return None
+        return None 
     
     current_node = root_node
-    # Рухаємося по right-вказівнику, доки не досягнемо кінця
-    while current_node.right is not None:
-        current_node = current_node.right
+    # Рухаємося по left-вказівнику, доки не досягнемо кінця
+    while current_node.left is not None:
+        current_node = current_node.left
         
     return current_node.key
 
@@ -118,8 +117,8 @@ if __name__ == "__main__":
     for el in elements:
         tree.insert(el)
         
-    max_val_1 = find_max_value(tree.root)
-    print(f"Найбільше значення: {max_val_1}") # 70
+    min_val_1 = find_min_value(tree.root)
+    print(f"Найменше значення: {min_val_1}") # 10
     draw_tree(tree.root) 
 
     print("\n--- Тест 2: Деградоване дерево ---")
@@ -128,17 +127,17 @@ if __name__ == "__main__":
     for el in elements_degraded:
         tree_degraded.insert(el)
         
-    max_val_2 = find_max_value(tree_degraded.root)
-    print(f"Найбільше значення: {max_val_2}") # 30
+    min_val_2 = find_min_value(tree_degraded.root)
+    print(f"Найменше значення: {min_val_2}") # 10
     draw_tree(tree_degraded.root)
 
     print("\n--- Тест 3: Порожнє дерево ---")
     tree_empty = BST()
-    max_val_3 = find_max_value(tree_empty.root)
+    min_val_3 = find_min_value(tree_empty.root)
     
     # Об'єднуємо обробку помилки в один чистий вивід
-    if max_val_3 is None:
-        print("Результат: Дерево порожнє (Max value: None). Візуалізація пропущена.")
+    if min_val_3 is None:
+        print("Результат: Дерево порожнє (Min value: None). Візуалізація пропущена.")
     else:
-        print(f"Найбільше значення: {max_val_3}")
+        print(f"Найменше значення: {min_val_3}")
         draw_tree(tree_empty.root)
