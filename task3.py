@@ -40,32 +40,41 @@ def find_sum_values(root_node: Node) -> int:
     # Рекурсивний випадок: сума = поточне значення + сума лівого піддерева + сума правого піддерева
     return root_node.key + find_sum_values(root_node.left) + find_sum_values(root_node.right)
 
+def test_tree_sum(test_name: str, elements: list, expected_sum: int):
+    """Створює дерево, обчислює суму та виводить результат."""
+    print(f"\n--- {test_name} ---")
+    
+    tree = BST()
+    for el in elements:
+        tree.insert(el)
+    
+    sum_val = find_sum_values(tree.root)
+    
+    # Виводимо результат
+    print(f"Сума всіх значень: {sum_val} # Очікується: {expected_sum}")
+    return sum_val
+
 
 # --- Тестування ---
 if __name__ == "__main__":
     
-    print("--- Тест 1: Звичайне дерево ---")
-    tree = BST()
-    elements = [40, 20, 60, 10, 30, 50, 70]
-    for el in elements:
-        tree.insert(el)
-    
-    sum_val_1 = find_sum_values(tree.root)
-    print(f"Сума всіх значень: {sum_val_1}") # 280
+    # Тест 1: Звичайне дерево
+    test_tree_sum(
+        "Тест 1: Звичайне дерево",
+        [40, 20, 60, 10, 30, 50, 70],
+        280
+    )
 
+    # Тест 2: Деградоване дерево
+    test_tree_sum(
+        "Тест 2: Деградоване дерево",
+        [10, 20, 30],
+        60
+    )
 
-    print("\n--- Тест 2: Деградоване дерево ---")
-    tree_degraded = BST()
-    elements_degraded = [10, 20, 30]
-    for el in elements_degraded:
-        tree_degraded.insert(el)
-        
-    sum_val_2 = find_sum_values(tree_degraded.root)
-    print(f"Сума всіх значень: {sum_val_2}") # 60
-
-
-    print("\n--- Тест 3: Порожнє дерево ---")
-    tree_empty = BST()
-    
-    sum_val_3 = find_sum_values(tree_empty.root)
-    print(f"Сума всіх значень: {sum_val_3}")
+    # Тест 3: Порожнє дерево
+    test_tree_sum(
+        "Тест 3: Порожнє дерево",
+        [],
+        0
+    )
