@@ -46,6 +46,26 @@ def find_min_value(root_node: Node):
         
     return current_node.key
 
+def test_tree_properties(test_name: str, elements: list, expected_sum: int, expected_min=None, expected_max=None):
+    """Створює дерево, обчислює та виводить суму, мінімум і максимум."""
+    print(f"\n--- {test_name} ---")
+    
+    tree = BST()
+    for el in elements:
+        tree.insert(el)
+    
+    # Обчислення властивостей
+    min_val = find_min_value(tree.root)
+    
+    # Виведення результатів
+    print(f"Min Value: {min_val} # Expected: {expected_min}")
+
+    # Виклик візуалізації
+    if tree.root is not None:
+        draw_tree(tree.root)
+    else:
+        print("Візуалізація пропущена. (Порожнє дерево)")
+
 
 # --- Візуалізація ---
 def add_edges_to_graph(graph, node, pos, x=0, y=0, layer=1):
@@ -111,33 +131,29 @@ def draw_tree(tree_root):
 # --- Тестування ---
 if __name__ == "__main__":
     
-    print("--- Тест 1: Звичайне дерево ---")
-    tree = BST()
-    elements = [40, 20, 60, 10, 30, 50, 70]
-    for el in elements:
-        tree.insert(el)
-        
-    min_val_1 = find_min_value(tree.root)
-    print(f"Найменше значення: {min_val_1}") # 10
-    draw_tree(tree.root) 
+    # Тест 1: Звичайне дерево
+    test_tree_properties(
+        "Тест 1: Звичайне дерево",
+        [40, 20, 60, 10, 30, 50, 70],
+        280, # Expected Sum
+        expected_min=10,  
+        expected_max=70
+    )
 
-    print("\n--- Тест 2: Деградоване дерево ---")
-    tree_degraded = BST()
-    elements_degraded = [10, 20, 30]
-    for el in elements_degraded:
-        tree_degraded.insert(el)
-        
-    min_val_2 = find_min_value(tree_degraded.root)
-    print(f"Найменше значення: {min_val_2}") # 10
-    draw_tree(tree_degraded.root)
+    # Тест 2: Деградоване дерево
+    test_tree_properties(
+        "Тест 2: Деградоване дерево",
+        [10, 20, 30],
+        60,  # Expected Sum
+        expected_min=10,
+        expected_max=30   
+    )
 
-    print("\n--- Тест 3: Порожнє дерево ---")
-    tree_empty = BST()
-    min_val_3 = find_min_value(tree_empty.root)
-    
-    # Об'єднуємо обробку помилки в один чистий вивід
-    if min_val_3 is None:
-        print("Результат: Дерево порожнє (Min value: None). Візуалізація пропущена.")
-    else:
-        print(f"Найменше значення: {min_val_3}")
-        draw_tree(tree_empty.root)
+    # Тест 3: Порожнє дерево
+    test_tree_properties(
+        "Тест 3: Порожнє дерево",
+        [],
+        0,   # Expected Sum
+        expected_min=None,
+        expected_max=None  
+    )
